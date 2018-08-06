@@ -2,5 +2,5 @@ package fairy.dataconcealer.concealer;
 
 public interface Encoder {
 
-    String encode (String objectToEncode);
+    String encode(String objectToEncode);
 }

@@ -16,7 +16,7 @@ public class FSLinesOutputWriter implements OutputWriter<String> {
     @Override
     public void write(Stream<String> output) {
         try {
-            Files.write(path, (Iterable<String>)output::iterator);
+            Files.write(path, (Iterable<String>) output::iterator);
         } catch (IOException e) {
             throw new RuntimeException("Failed write to file " + path.toString(), e);
         }
