@@ -5,5 +5,5 @@ import java.util.stream.Stream;
 
 public interface InputReader<T> {
 
-    Stream<T> read (Path path);
+    Stream<T> read();
 }

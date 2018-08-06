@@ -11,15 +11,12 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static fairy.dataconcealer.Utils.findInClasspath;
-import static java.util.stream.Collectors.toList;
 
 public class Main {
     public static void main(String[] args) {
 //        String fileName =  args[0];
         String fileName = "testInput.txt";
 
-
-//        String fileType = args[1];
         String fileType = null;
         if (fileType == null) {
             fileType = checkFileType(fileName);
@@ -27,18 +24,20 @@ public class Main {
 
         Path inputFilePath = findInClasspath(fileName);
 
-        InputReader<String> reader = new FSInputReader();
+        InputReader<String> reader = new FSInputReader(inputFilePath);
 
+        System.out.println(inputFilePath.toString());
+        System.out.println(inputFilePath.getParent().toString());
         Path outputPath = inputFilePath.getParent().resolveSibling("out.txt");
         OutputWriter<String> writer = new FSLinesOutputWriter(outputPath);
 
-        Stream<String> inputData = reader.read(inputFilePath);
+        Stream<String> inputData = reader.read();
 
         Concealer<String> concealer = ConcealerFactory.createRegExHashConcealer("regexpRules.txt");
         Stream<String> outStream = inputData.map(concealer::conceal);
 
         writer.write(outStream);
-        System.out.println(String.join("\n", outStream.collect(toList())));
+//        System.out.println(String.join("\n", outStream.collect(toList())));
 
     }
 

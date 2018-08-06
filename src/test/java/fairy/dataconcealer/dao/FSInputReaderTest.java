@@ -22,15 +22,15 @@ public class FSInputReaderTest {
 
     @Test
     public void testRead(){
-        FSInputReader reader = new FSInputReader();
-        String[] results = reader.read(Utils.findInClasspath(testFileName)).collect(Collectors.toList()).toArray(new String[0]);
+        FSInputReader reader = new FSInputReader(Utils.findInClasspath(testFileName));
+        String[] results = reader.read().collect(Collectors.toList()).toArray(new String[0]);
         Assert.assertArrayEquals(testData, results);
     }
 
     @Test(expected = RuntimeException.class)
     public void testNoFile(){
-        FSInputReader reader = new FSInputReader();
-        reader.read(Utils.findInClasspath("noSuchFile.txt"));
+        FSInputReader reader = new FSInputReader(Utils.findInClasspath("noSuchFile.txt"));
+        reader.read();
     }
 
 }
