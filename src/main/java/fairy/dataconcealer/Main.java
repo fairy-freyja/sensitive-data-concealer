@@ -2,12 +2,10 @@ package fairy.dataconcealer;
 
 import fairy.dataconcealer.concealer.Concealer;
 import fairy.dataconcealer.concealer.ConcealerFactory;
-import fairy.dataconcealer.dao.FSInputReader;
-import fairy.dataconcealer.dao.FSLinesOutputWriter;
-import fairy.dataconcealer.dao.InputReader;
-import fairy.dataconcealer.dao.OutputWriter;
+import fairy.dataconcealer.dao.*;
 
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static fairy.dataconcealer.Utils.findInClasspath;
@@ -23,7 +21,9 @@ public class Main {
 
         Stream<String> inputData = reader.read();
 
-        Concealer<String> concealer = ConcealerFactory.createRegExHashConcealer("regexpRules.txt");
+        RulesReader<Pattern> rulesReader = new FSRegexRulesReader("regexpRules.txt");
+
+        Concealer<String> concealer = ConcealerFactory.createRegExHashConcealer(rulesReader);
         Stream<String> outStream = inputData.map(concealer::conceal);
 
         Path outputPath = inputFilePath.getParent().resolveSibling("out.txt");

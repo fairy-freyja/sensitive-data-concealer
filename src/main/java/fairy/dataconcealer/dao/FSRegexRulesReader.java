@@ -4,10 +4,11 @@ import fairy.dataconcealer.Utils;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toList;
 
-public class FSRegexRulesReader implements RulesReader<String> {
+public class FSRegexRulesReader implements RulesReader<Pattern> {
     private Path path;
 
     public FSRegexRulesReader(String filename) {
@@ -15,7 +16,7 @@ public class FSRegexRulesReader implements RulesReader<String> {
     }
 
     @Override
-    public List<String> getRules() {
-        return Utils.readLines(path).collect(toList());
+    public List<Pattern> getRules() {
+        return Utils.readLines(path).map(Pattern::compile).collect(toList());
     }
 }
